@@ -1,0 +1,27 @@
+---
+keydb_packages:
+  - https://download.keydb.dev/pkg/open_source/rpm/centos7/x86_64/keydb-latest-1.el7.x86_64.rpm
+
+keydb_cluster_replica: 1
+keydb_cluster_conf:
+  cluster_enabled: "yes"
+  port: "6379"
+  maxmemory: "64mb"
+  rename_commands:
+    - FLUSHDB
+    - FLUSHALL
+    - KEYS
+    - SHUTDOWN
+
+redis_exporter_packages:
+  url: 'https://github.com/oliver006/redis_exporter/releases/download/v1.24.0/redis_exporter-v1.24.0.linux-arm64.tar.gz'
+  checksum: 'sha256:cf0e40b5449e70462cad7cf13cbcaffeebbfc828288070bc46a5a7bec08c8113'
+
+######### Systemd limit
+systemd_services:
+  mysqld:
+    LimitFSIZE: 'infinity'
+    LimitCPU: 'infinity'
+    LimitAS: 'infinity'
+    LimitNOFILE: 2000000
+    LimitNPROC: 2000000

@@ -1,0 +1,10 @@
+[keydb_cluster:children]
+keydb_cluster_infra
+
+[keydb_cluster_infra]
+vm-dev-keydb-infra-0
+vm-dev-keydb-infra-1
+vm-dev-keydb-infra-2
+vm-dev-keydb-infra-3
+vm-dev-keydb-infra-4
+vm-dev-keydb-infra-5

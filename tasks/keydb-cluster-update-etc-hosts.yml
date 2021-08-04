@@ -1,0 +1,9 @@
+---
+- name: keydb-cluster-update-etc-hosts | Update /etc/hosts
+  template:
+    src: etc/hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
