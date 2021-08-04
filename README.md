@@ -2,7 +2,7 @@
 Ansible Role: KeyDB Cluster
 =========
 
-![CI](https://github.com/v0112358/ansible-role-keydb-cluster/actions/workflows/main.yml/badge.svg) ![Ansible Role](https://img.shields.io/ansible/role/d/55881) [![GitHub license](https://img.shields.io/github/license/v0112358/ansible-role-keydb-cluster)](https://github.com/v0112358/ansible-role-keydb-cluster/blob/master/LICENSE.md)
+![CI](https://github.com/v0112358/ansible-role-keydb-cluster/actions/workflows/main.yml/badge.svg) ![Ansible Role](https://img.shields.io/ansible/role/d/55902) [![GitHub license](https://img.shields.io/github/license/v0112358/ansible-role-keydb-cluster)](https://github.com/v0112358/ansible-role-keydb-cluster/blob/master/LICENSE.md)
 
 Install and configure KeyDB cluster on your system.
 
