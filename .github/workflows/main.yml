@@ -10,6 +10,10 @@ jobs:
         config:
           - image: "centos"
             tag: "7"
+          - image: "centos"
+            tag: "8"
+          - image: "rockylinux"
+            tag: "latest"
     steps:
       - name: checkout
         uses: actions/checkout@v2

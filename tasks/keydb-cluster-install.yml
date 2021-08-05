@@ -7,7 +7,7 @@
   block:
     - name: keydb-cluster-install | Install KeyDB package
       yum:
-        name: "{{ keydb_packages }}"
+        name: "{{ keydb_packages.rpm }}"
         state: latest
 
   when: keydb_bin.stat.exists == False
