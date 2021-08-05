@@ -14,8 +14,8 @@ keydb_cluster_conf:
     - SHUTDOWN
 
 redis_exporter_packages:
-  url: 'https://github.com/oliver006/redis_exporter/releases/download/v1.24.0/redis_exporter-v1.24.0.linux-arm64.tar.gz'
-  checksum: 'sha256:cf0e40b5449e70462cad7cf13cbcaffeebbfc828288070bc46a5a7bec08c8113'
+  url: 'https://github.com/oliver006/redis_exporter/releases/download/v1.24.0/redis_exporter-v1.24.0.linux-amd64.tar.gz'
+  checksum: 'sha256:aae973791acec280942a518be396e4b09b1d6720d67b5ae31662db8913d1fd53'
 
 ######### Systemd limit
 systemd_services:
