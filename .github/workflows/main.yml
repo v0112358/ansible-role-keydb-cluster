@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
         with:
           path: "${{ github.repository }}"
       - name: Set up Python 3
@@ -20,7 +20,6 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies
         run: |
-          cd v0112358/ansible-role-keydb-cluster
           python -m pip install --upgrade pip
           pip install requirements.txt
           pip install ansible-lint flake8 molecule docker
