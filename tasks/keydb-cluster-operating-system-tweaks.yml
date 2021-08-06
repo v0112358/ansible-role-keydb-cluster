@@ -31,4 +31,5 @@
     name: disable-transparent-huge-pages
     daemon_reload: True
     enabled: True
-    state: restarted
+    state: started
+    changed_when: false
