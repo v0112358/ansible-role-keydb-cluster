@@ -20,11 +20,13 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies
         run: |
+          cd v0112358/ansible-role-keydb-cluster
           python -m pip install --upgrade pip
-          pip install -r v0112358/ansible-role-keydb-cluster/requirements.txt
+          pip install requirements.txt
           pip install ansible-lint flake8 molecule docker
       - name: Test with molecule
         run: |
+
           molecule test --all
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
