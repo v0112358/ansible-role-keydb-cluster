@@ -26,7 +26,6 @@ jobs:
           pip install ansible-lint flake8 molecule docker
       - name: Test with molecule
         run: |
-
           molecule test --all
         env:
           MOLECULE_DISTRO: ${{ matrix.molecule_distro }}
