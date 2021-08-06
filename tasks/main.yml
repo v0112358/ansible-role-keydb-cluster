@@ -1,9 +1,9 @@
 ---
-- import_tasks: keydb-cluster-operating-system-tweaks.yml
-  tags: [keydb-cluster-operating-system-tweaks, operating-system-tweaks]
-
 - include_tasks: keydb-cluster-install-{{ ansible_os_family }}.yml
   tags: [keydb-cluster-install, install]
+
+- import_tasks: keydb-cluster-operating-system-tweaks.yml
+  tags: [keydb-cluster-operating-system-tweaks, operating-system-tweaks]
 
 - import_tasks: keydb-cluster-configure.yml
   tags: [keydb-cluster-configure, configure]

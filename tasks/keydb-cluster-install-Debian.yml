@@ -11,6 +11,7 @@
   with_items:
     - gpg-agent
     - curl
+    - procps
 
 - name: keydb-cluster-install | Install KeyDB
   block:
