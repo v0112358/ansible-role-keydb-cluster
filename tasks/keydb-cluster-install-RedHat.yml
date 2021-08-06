@@ -1,19 +1,20 @@
 ---
 - name: keydb-cluster-install | Check if KeyDB already installed
-  stat: path=/usr/bin/keydb-server
+  ansible.builtin.stat: path=/usr/bin/keydb-server
   register: keydb_bin
 
 - name: keydb-cluster-install | Install KeyDB
   block:
     - name: keydb-cluster-install | Install KeyDB package
-      yum:
+      ansible.builtin.yum:
         name: "{{ keydb_packages.rpm }}"
         state: latest
+        disable_gpg_check: yes
 
   when: keydb_bin.stat.exists == False
 
 - name: keydb-cluster-install | Create a directory for the systemd service modification
-  file:
+  ansible.builtin.file:
     path: '/usr/lib/systemd/system/keydb.service.d'
     state: directory
     owner: root
@@ -21,7 +22,7 @@
     mode: 0755
 
 - name: keydb-cluster-install | Update KeyDB systemd resource limit
-  template:
+  ansible.builtin.template:
     src: systemd/custom.conf.j2
     dest: '/usr/lib/systemd/system/keydb.service.d/custom.conf'
     owner: root

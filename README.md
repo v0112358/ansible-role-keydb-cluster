@@ -46,6 +46,9 @@ These variables are set in defaults/main.yml.
 keydb_packages:
   rpm: 
     - https://download.keydb.dev/pkg/open_source/rpm/centos{{ ansible_distribution_major_version }}/x86_64/keydb-latest-1.el{{ ansible_distribution_major_version }}.x86_64.rpm
+  ppa:
+    apt_repository: https://download.keydb.dev/open-source-dist
+    apt_key: https://download.keydb.dev/open-source-dist/keyring.gpg
 
 
 keydb_cluster_replica: 1

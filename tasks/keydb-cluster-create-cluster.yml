@@ -1,16 +1,16 @@
 ---
 - name: keydb-cluster-create-cluster | Check if KeyDB cluster already created
-  stat: path=/var/lib/keydb/keydb-cluster.created
+  ansible.builtin.stat: path=/var/lib/keydb/keydb-cluster.created
   register: keydb_cluster_status
 
 - name: keydb-cluster-create-cluster | Create KeyDB cluster
   block:
     - name: keydb-cluster-create-cluster | Get all ip address in group
-      set_fact:
+      ansible.builtin.set_fact:
         keydb_cluster_ip_address_list: "{{ groups[hostvars[inventory_hostname].group_names[-1]] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
 
     - name: keydb-cluster-create-cluster | Check keydb_cluster_ip_address_list length
-      assert:
+      ansible.builtin.assert:
         that:
           - (keydb_cluster_ip_address_list | length | int) % 2 == 0 and keydb_cluster_replica > 0
         fail_msg: "Cannot create KeyDB cluster due to the_number_of_instances % 2 = 1. The_number_of_instances must even."
@@ -19,28 +19,28 @@
 
     - block:
       - name: keydb-cluster-create-cluster | Set keydb_cluster_instances
-        set_fact:
+        ansible.builtin.set_fact:
           keydb_cluster_instances: ""
 
       - name: keydb-cluster-create-cluster | Mount keydb_cluster_instances
-        set_fact:
+        ansible.builtin.set_fact:
           keydb_cluster_instances: "{{ keydb_cluster_instances + item + ':' + keydb_cluster_conf.port + ' ' }}"
         with_items:
           - "{{ keydb_cluster_ip_address_list }}"
 
       - name: keydb-cluster-create-cluster | I will run this command bellow to create KeyDB cluster
-        debug:
+        ansible.builtin.debug:
           msg: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_instances }}--cluster-replicas {{ keydb_cluster_replica }}"
 
       - name: keydb-cluster-create-cluster | Create KeyDB cluster via keydb-cli
-        shell: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_instances }}--cluster-replicas {{ keydb_cluster_replica }}"
+        ansible.builtin.shell: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_instances }}--cluster-replicas {{ keydb_cluster_replica }}"
         args:
           creates: /var/lib/keydb/keydb-cluster.created
         run_once: True
         register: keydb_cluster_created
 
       - name: keydb-cluster-create-cluster | Make created file if KeyDB cluster is created
-        file:
+        ansible.builtin.file:
           path: /var/lib/keydb/keydb-cluster.created
           state: touch
           owner: keydb

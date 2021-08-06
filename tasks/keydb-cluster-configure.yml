@@ -1,14 +1,6 @@
 ---
-- name: keydb-cluster-configure | Disable keydb-sentinel service
-  systemd:
-    name: "{{ item }}"
-    state: stopped
-    enabled: no
-  with_items:
-    - keydb-sentinel
-
 - name: keydb-cluster-configure | Apply config files /etc/keydb/keydb.conf
-  template:
+  ansible.builtin.template:
     src: etc/keydb/keydb.conf.j2
     dest: /etc/keydb/keydb.conf
     mode: 0644
@@ -17,7 +9,7 @@
   notify: Warning file /etc/keydb/keydb.conf has been changed
 
 - name: keydb-cluster-configure | Ensures KeyDB is started and enabled
-  systemd:
+  ansible.builtin.systemd:
     name: keydb
     daemon_reload: True
     enabled: True

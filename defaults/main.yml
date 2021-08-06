@@ -1,8 +1,13 @@
 ---
+######### KeyDB packages
 keydb_packages:
   rpm: 
     - https://download.keydb.dev/pkg/open_source/rpm/centos{{ ansible_distribution_major_version }}/x86_64/keydb-latest-1.el{{ ansible_distribution_major_version }}.x86_64.rpm
+  ppa:
+    apt_repository: https://download.keydb.dev/open-source-dist
+    apt_key: https://download.keydb.dev/open-source-dist/keyring.gpg
 
+######### KeyDB config
 keydb_cluster_replica: 1
 keydb_cluster_conf:
   cluster_enabled: "yes"
@@ -14,6 +19,7 @@ keydb_cluster_conf:
     - KEYS
     - SHUTDOWN
 
+######### redis_exporter
 redis_exporter_packages:
   url: 'https://github.com/oliver006/redis_exporter/releases/download/v1.24.0/redis_exporter-v1.24.0.linux-amd64.tar.gz'
   checksum: 'sha256:aae973791acec280942a518be396e4b09b1d6720d67b5ae31662db8913d1fd53'

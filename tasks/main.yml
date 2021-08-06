@@ -1,25 +1,15 @@
 ---
 - import_tasks: keydb-cluster-operating-system-tweaks.yml
-  when:
-    - ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
   tags: [keydb-cluster-operating-system-tweaks, operating-system-tweaks]
 
-- import_tasks: keydb-cluster-install.yml
-  when:
-    - ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+- include_tasks: keydb-cluster-install-{{ ansible_os_family }}.yml
   tags: [keydb-cluster-install, install]
 
 - import_tasks: keydb-cluster-configure.yml
-  when:
-    - ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
   tags: [keydb-cluster-configure, configure]
 
 - import_tasks: keydb-cluster-create-cluster.yml
-  when:
-    - ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
   tags: [keydb-cluster-create-cluster, create-cluster]
 
 - import_tasks: keydb-cluster-redis-exporter.yml
-  when:
-    - ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
   tags: [keydb-cluster-redis-exporter, redis-exporter]

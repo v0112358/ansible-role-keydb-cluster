@@ -1,19 +1,19 @@
 ---
 - name: keydb-cluster-redis-exporter | Check if redis_exporter already installed
-  stat: path=/usr/local/bin/redis_exporter
+  ansible.builtin.stat: path=/usr/local/bin/redis_exporter
   register: redis_exporter_bin
 
 - name: keydb-cluster-redis-exporter | Begin install redis_exporter
   block:
     - name: keydb-cluster-redis-exporter | Download redis_exporter release
-      get_url:
+      ansible.builtin.get_url:
         url: '{{ redis_exporter_packages.url }}'
         dest: /usr/local/src/
         checksum: '{{ redis_exporter_packages.checksum }}'
       register: redis_exporter_src
 
     - name: keydb-cluster-redis-exporter | Extract redis_exporter-*.tar.gz
-      unarchive:
+      ansible.builtin.unarchive:
         src: '{{ redis_exporter_src.dest }}'
         remote_src: yes
         dest: /usr/local/bin/
@@ -23,7 +23,7 @@
         extra_opts: ['--strip', '1']
 
     - name: keydb-cluster-redis-exporter | Remove junk files
-      file:
+      ansible.builtin.file:
         path: /usr/local/bin/{{ item }}
         state: absent
       with_items:
@@ -34,7 +34,7 @@
   when: redis_exporter_bin.stat.exists == False
 
 - name: keydb-cluster-redis-exporter | Create redis-exporter systemd service
-  template:
+  ansible.builtin.template:
     src: systemd/redis-exporter.service.j2
     dest: '/usr/lib/systemd/system/redis-exporter.service'
     owner: root
