@@ -13,12 +13,12 @@ Example Inventory
 keydb_cluster_infra
 
 [keydb_cluster_infra]
-vm-dev-keydb-infra-0
-vm-dev-keydb-infra-1
-vm-dev-keydb-infra-2
-vm-dev-keydb-infra-3
-vm-dev-keydb-infra-4
-vm-dev-keydb-infra-5
+vm-dev-keydb-infra-0	keydb_role="master"
+vm-dev-keydb-infra-1	keydb_role="master"
+vm-dev-keydb-infra-2	keydb_role="master"
+vm-dev-keydb-infra-3	keydb_role="slave"
+vm-dev-keydb-infra-4	keydb_role="slave"
+vm-dev-keydb-infra-5	keydb_role="slave"
 ```
 Example Playbook
 ------------
@@ -54,8 +54,9 @@ keydb_packages:
 keydb_cluster_replica: 1
 keydb_cluster_conf:
   cluster_enabled: "yes"
-  port: "6379"
-  maxmemory: "1gb"
+  master_port: "6379"
+  slave_port: "6379"
+  maxmemory: "64mb"
   rename_commands:
     - FLUSHDB
     - FLUSHALL

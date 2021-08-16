@@ -2,7 +2,11 @@
 
 bind {{ keydb_cluster_conf.bind | default('0.0.0.0') }}
 protected-mode {{ keydb_cluster_conf.protected_mode | default('yes') }}
-port {{ keydb_cluster_conf.port | default('6379') }}
+{% if keydb_role is defined and keydb_role == "master" %}
+port {{ keydb_cluster_conf.master_port | default('6379') }}
+{% else %}
+port {{ keydb_cluster_conf.slave_port | default('6379') }}
+{% endif %}
 
 tcp-backlog {{ keydb_cluster_conf.tcp_backlog | default('511') }}
 timeout {{ keydb_cluster_conf.timeout | default('0') }}

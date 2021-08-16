@@ -2,9 +2,9 @@
 keydb_cluster_infra
 
 [keydb_cluster_infra]
-vm-dev-keydb-infra-0
-vm-dev-keydb-infra-1
-vm-dev-keydb-infra-2
-vm-dev-keydb-infra-3
-vm-dev-keydb-infra-4
-vm-dev-keydb-infra-5
+vm-dev-keydb-infra-0	keydb_role="master"
+vm-dev-keydb-infra-1	keydb_role="master"
+vm-dev-keydb-infra-2	keydb_role="master"
+vm-dev-keydb-infra-3	keydb_role="slave"
+vm-dev-keydb-infra-4	keydb_role="slave"
+vm-dev-keydb-infra-5	keydb_role="slave"

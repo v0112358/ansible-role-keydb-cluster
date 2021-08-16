@@ -9,6 +9,32 @@
       ansible.builtin.set_fact:
         keydb_cluster_ip_address_list: "{{ groups[hostvars[inventory_hostname].group_names[-1]] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
 
+    - name: keydb-cluster-create-cluster | Set keydb_cluster_master_ip_address_list
+      ansible.builtin.set_fact:
+        keydb_cluster_master_ip_address_list: ""
+
+    - name: keydb-cluster-create-cluster | Get all ip address with keydb_role="master" in group
+      ansible.builtin.set_fact:
+        keydb_cluster_master_ip_address_list: "{{ keydb_cluster_master_ip_address_list + hostvars[master_item]['ansible_default_ipv4']['address'] + ':' + keydb_cluster_conf.master_port + ' ' }}"
+      with_items: "{{ groups[hostvars[inventory_hostname].group_names[-1]] }}"
+      loop_control:
+        loop_var: master_item
+      when:
+        - hostvars[master_item].keydb_role == "master"
+
+    - name: keydb-cluster-create-cluster | Set keydb_cluster_slave_ip_address_list
+      ansible.builtin.set_fact:
+        keydb_cluster_slave_ip_address_list: ""
+
+    - name: keydb-cluster-create-cluster | Get all ip address with keydb_role="slave" in group
+      ansible.builtin.set_fact:
+        keydb_cluster_slave_ip_address_list: "{{ keydb_cluster_slave_ip_address_list + hostvars[slave_item]['ansible_default_ipv4']['address'] + ':' + keydb_cluster_conf.slave_port + ' ' }}"
+      with_items: "{{ groups[hostvars[inventory_hostname].group_names[-1]] }}"
+      loop_control:
+        loop_var: slave_item
+      when:
+        - hostvars[slave_item].keydb_role == "slave"
+
     - name: keydb-cluster-create-cluster | Check keydb_cluster_ip_address_list length
       ansible.builtin.assert:
         that:
@@ -18,22 +44,12 @@
       register: check_keydb_cluster_length
 
     - block:
-      - name: keydb-cluster-create-cluster | Set keydb_cluster_instances
-        ansible.builtin.set_fact:
-          keydb_cluster_instances: ""
-
-      - name: keydb-cluster-create-cluster | Mount keydb_cluster_instances
-        ansible.builtin.set_fact:
-          keydb_cluster_instances: "{{ keydb_cluster_instances + item + ':' + keydb_cluster_conf.port + ' ' }}"
-        with_items:
-          - "{{ keydb_cluster_ip_address_list }}"
-
       - name: keydb-cluster-create-cluster | I will run this command bellow to create KeyDB cluster
         ansible.builtin.debug:
-          msg: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_instances }}--cluster-replicas {{ keydb_cluster_replica }}"
+          msg: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_master_ip_address_list + keydb_cluster_slave_ip_address_list }}--cluster-replicas {{ keydb_cluster_replica }}"
 
       - name: keydb-cluster-create-cluster | Create KeyDB cluster via keydb-cli
-        ansible.builtin.shell: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_instances }}--cluster-replicas {{ keydb_cluster_replica }}"
+        ansible.builtin.shell: "printf 'yes' | keydb-cli --cluster create {{ keydb_cluster_master_ip_address_list + keydb_cluster_slave_ip_address_list }}--cluster-replicas {{ keydb_cluster_replica }}"
         args:
           creates: /var/lib/keydb/keydb-cluster.created
         run_once: True
@@ -47,7 +63,7 @@
           group: keydb
           mode: 0750
         when: keydb_cluster_created is defined and "All 16384 slots covered." in keydb_cluster_created.stdout
-      
+
       when: '"look good" in check_keydb_cluster_length.msg'
 
   when:

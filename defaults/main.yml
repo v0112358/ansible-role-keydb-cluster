@@ -11,7 +11,8 @@ keydb_packages:
 keydb_cluster_replica: 1
 keydb_cluster_conf:
   cluster_enabled: "yes"
-  port: "6379"
+  master_port: "6379"
+  slave_port: "6379"
   maxmemory: "64mb"
   rename_commands:
     - FLUSHDB
